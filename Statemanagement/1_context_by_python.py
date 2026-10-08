@@ -44,13 +44,13 @@ while True:
         summary_response = llm.invoke([
             HumanMessage(
                 content=f"""
-Summarize this conversation briefly.
-Keep important facts and decisions.
+                Summarize this conversation briefly.
+                Keep important facts and decisions.
 
-Conversation:
-{old_text}
-"""
-            )
+                Conversation:
+                {old_text}
+                """
+            )]
         )
 
         summary = summary_response.content
