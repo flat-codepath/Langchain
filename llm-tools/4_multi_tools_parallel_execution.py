@@ -175,3 +175,59 @@ while True:
 #  look at the result, and continue deciding until it can produce the final answer.
 
 # Agent is a system where the LLM can decide what action/tools to take, and execute the tools and look at the results and continue looping until it can produce the final answer.
+
+
+
+
+
+# --------------------------------------------------------------
+if response.tool_calls:
+
+    tool_map = {
+        "get_weather": get_weather,
+        "calculate": calculate,
+        "get_current_time": get_current_time
+    }
+
+    messages = [
+        {
+            "role": "user",
+            "content": question
+        },
+        response
+    ]
+
+    for tool_call in response.tool_calls:
+
+        tool_name = tool_call["name"]
+        tool_args = tool_call["args"]
+
+        print("\n--- Selected Tool ---")
+        print(tool_name)
+
+        print("\n--- Arguments ---")
+        print(tool_args)
+
+        selected_tool = tool_map[tool_name]
+
+        tool_result = selected_tool.invoke(tool_args)
+
+        print("\n--- Tool Result ---")
+        print(tool_result)
+
+        messages.append(
+            ToolMessage(
+                content=tool_result,
+                tool_call_id=tool_call["id"]
+            )
+        )
+
+    final_response = llm_with_tools.invoke(messages)
+
+    print("\n--- Final Answer ---")
+    print(final_response.content)
+
+else:
+
+    print("\n--- Final Answer ---")
+    print(response.content)
