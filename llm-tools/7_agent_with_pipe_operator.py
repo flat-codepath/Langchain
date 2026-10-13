@@ -171,8 +171,6 @@ while True:
 
 
 
-
-
 # The One Trade-off to Keep in Mind
 # By slicing [-1], your InMemoryChatMessageHistory will now only store the Human inputs and the final AI text responses. It will discard the tool calls and tool results from the memory.
 
